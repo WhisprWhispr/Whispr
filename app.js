@@ -1,5 +1,6 @@
 import { db } from './firebase-config.js';
 import { collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+import { translations } from './translations.js';
 
 const topicConfig = {
   "Tanya Apa Saja 💬": { primary: "#3b82f6", dark: "#2563eb", bg: "#eff6ff", music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
@@ -13,6 +14,105 @@ const topicConfig = {
 
 document.addEventListener('DOMContentLoaded', () => {
   
+  // --- GLOBAL PREVENTIONS & THEME ---
+  document.addEventListener('contextmenu', e => {
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') e.preventDefault();
+  });
+  document.addEventListener('copy', e => {
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') e.preventDefault();
+  });
+  document.addEventListener('cut', e => {
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') e.preventDefault();
+  });
+
+  const themeBtns = document.querySelectorAll('.theme-btn');
+  const applyTheme = (themeValue) => {
+    if (themeValue === 'dark') {
+      document.body.dataset.theme = 'dark';
+    } else if (themeValue === 'light') {
+      document.body.dataset.theme = 'light';
+    } else if (themeValue === 'system') {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.dataset.theme = 'dark';
+      } else {
+        document.body.dataset.theme = 'light';
+      }
+    } else if (themeValue === 'auto') {
+      const hour = new Date().getHours();
+      if (hour >= 18 || hour < 6) {
+        document.body.dataset.theme = 'dark';
+      } else {
+        document.body.dataset.theme = 'light';
+      }
+    }
+  };
+
+  const initTheme = () => {
+    const savedTheme = localStorage.getItem('ngl_theme') || 'system';
+    applyTheme(savedTheme);
+    if (themeBtns.length > 0) {
+      themeBtns.forEach(btn => {
+        if (btn.dataset.themeVal === savedTheme) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+  };
+
+  initTheme();
+
+  // --- I18N LOGIC ---
+  let currentLang = localStorage.getItem('ngl_lang') || 'en';
+  const t = (key) => {
+    return translations[currentLang]?.[key] || translations['en']?.[key] || key;
+  };
+
+  const applyTranslations = () => {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (key) el.innerHTML = t(key);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (key) el.placeholder = t(key);
+    });
+  };
+
+  const initI18n = () => {
+    applyTranslations();
+    const langBtns = document.querySelectorAll('.lang-btn');
+    if (langBtns.length > 0) {
+      langBtns.forEach(btn => {
+        if (btn.dataset.langVal === currentLang) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+        btn.addEventListener('click', () => {
+          if (currentLang !== btn.dataset.langVal) {
+            localStorage.setItem('ngl_lang', btn.dataset.langVal);
+            window.location.reload();
+          }
+        });
+      });
+    }
+  };
+
+  initI18n();
+  if (themeBtns.length > 0) {
+    themeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        themeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const themeVal = btn.dataset.themeVal;
+        localStorage.setItem('ngl_theme', themeVal);
+        applyTheme(themeVal);
+      });
+    });
+  }
+
   // --- INDEX PAGE LOGIC ---
   const loginForm = document.getElementById('login-form');
   const usernameInput = document.getElementById('username-input');
@@ -116,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
     copyBtn.addEventListener('click', () => {
       navigator.clipboard.writeText(generatedLink.textContent).then(() => {
         const originalText = copyBtn.textContent;
-        copyBtn.textContent = 'Copied!';
+        copyBtn.textContent = t('link.copied');
         setTimeout(() => copyBtn.textContent = originalText, 2000);
       });
     });
@@ -148,8 +248,8 @@ document.addEventListener('DOMContentLoaded', () => {
       qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(link)}`;
 
       // Build WhatsApp text with topic if available
-      const topicLine = (topic && topic !== 'none') ? `\nTopik: ${topic}\n` : '\n\n';
-      const waText = `Halo! Saya sangat menghargai feedback, kritik, atau pesan jujur dari Anda secara anonim.${topicLine}Silakan sampaikan pesan rahasia Anda melalui link Whispr saya di sini:\n${link}`;
+      const topicLine = (topic && topic !== 'none') ? `\n${t('js.wa_topic')} ${topic}\n` : '\n\n';
+      const waText = `${t('js.wa_text')}${topicLine}${t('js.wa_link')}\n${link}`;
       waShareBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(waText)}`;
     }
 
@@ -202,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
       targetUsernameDisplay.textContent = 'Unknown User';
       sendBtn.disabled = true;
       messageInput.disabled = true;
-      messageInput.placeholder = 'Invalid link.';
+      messageInput.placeholder = t('send.invalid_link');
     } else {
       targetUsernameDisplay.textContent = targetUser;
       
@@ -220,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // 1. Show topic badge and apply theme IMMEDIATELY for responsive UI
       if (currentTopicParam && topicBadgeWrap) {
         topicBadgeWrap.innerHTML = `<div class="topic-badge">${currentTopicParam}</div>`;
-        messageInput.placeholder = `Tulis pesan tentang "${currentTopicParam}" secara anonim...`;
+        messageInput.placeholder = t('send.placeholder');
         
         const theme = topicConfig[currentTopicParam];
         if (theme) {
@@ -260,11 +360,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentUrlTopic !== activeTopic) {
           // INVALID LINK (Topic changed)
           if (topicBadgeWrap) {
-            topicBadgeWrap.innerHTML = `<div class="topic-badge" style="background:#fee2e2; color:#dc2626; box-shadow:none;">Sesi Berakhir 🔒</div>`;
+            topicBadgeWrap.innerHTML = `<div class="topic-badge" style="background:#fee2e2; color:#dc2626; box-shadow:none;">${t('js.topic_ended')}</div>`;
           }
           sendBtn.disabled = true;
           messageInput.disabled = true;
-          messageInput.placeholder = "Maaf, link ini sudah tidak valid. Pengguna telah mengganti topik diskusinya.";
+          messageInput.placeholder = t('js.topic_invalid');
         }
       } catch (e) {
         console.warn("Topic validation skipped or timed out (check Firebase config).", e.message);
@@ -313,9 +413,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Success state
         sendForm.innerHTML = `
-          <h3>Terkirim! 🤫</h3>
-          <p>Pesan anonim Anda telah terkirim ke ${targetUser}.</p>
-          <a href="index.html?new=1" class="btn btn-secondary" style="margin-top: 20px;">Buat Link Anda</a>
+          <h3>${t('send.success_title')}</h3>
+          <p>${t('send.success_desc')} ${targetUser}.</p>
+          <a href="index.html?new=1" class="btn btn-secondary" style="margin-top: 20px;">${t('nav.create_link')}</a>
         `;
       } catch (error) {
         console.error("Error sending message: ", error);
@@ -369,7 +469,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (snapshot.empty) {
         messageList.innerHTML = `
           <div class="empty-state">
-            <p>No messages yet. Share your link to get some!</p>
+            <p>${t('inbox.empty')}</p>
           </div>
         `;
         return;
@@ -394,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ${moodHtml}
           <div class="message-text">${escapeHTML(data.text)}</div>
           <div class="message-time">${date}</div>
-          <button class="share-msg-btn" data-index="${index}">Bagikan ke IG Story 📸</button>
+          <button class="share-msg-btn" data-index="${index}">${t('inbox.share_ig')}</button>
         `;
         messageList.appendChild(card);
       });
@@ -427,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             canvas.toBlob(async (blob) => {
               if (!blob) {
-                alert("Gagal memproses gambar.");
+                alert(t('js.alert_fail'));
                 return;
               }
 
@@ -462,7 +562,7 @@ document.addEventListener('DOMContentLoaded', () => {
           } catch (err) {
             console.error("Error generating image:", err);
             exportTemplate.classList.add('hide');
-            alert("Gagal membuat gambar.");
+            alert(t('js.alert_fail'));
           }
         });
       });
@@ -470,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error("Error fetching messages: ", error);
       messageList.innerHTML = `
         <div class="empty-state">
-          <p>Error loading messages. Did you configure Firestore?</p>
+          <p>${t('js.error_load')}</p>
         </div>
       `;
     });

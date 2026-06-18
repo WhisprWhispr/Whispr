@@ -8,6 +8,19 @@
   --card-bg: #ffffff;
   --text-main: #1e293b;
   --text-muted: #64748b;
+  --shadow-dark: #cbd5e1;
+  --shadow-light: #ffffff;
+  --input-shadow: #e2e8f0;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --shadow-dark: #121b2b;
+  --shadow-light: #2a3b54;
+  --input-shadow: #0b1121;
 }
 
 * {
@@ -27,6 +40,9 @@ body {
   justify-content: center;
   padding: 20px;
   perspective: 1000px;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 h1, h2, h3 {
@@ -83,15 +99,17 @@ textarea {
   padding: 18px;
   border-radius: 18px;
   border: none;
-  background: #f8fafc;
+  background: var(--bg-color);
   color: var(--text-main);
   font-size: 1rem;
   font-weight: 600;
   outline: none;
   transition: all 0.3s ease;
+  user-select: auto;
+  -webkit-user-select: auto;
   box-shadow: 
-    inset 6px 6px 10px #e2e8f0,
-    inset -6px -6px 10px #ffffff;
+    inset 6px 6px 10px var(--input-shadow),
+    inset -6px -6px 10px var(--shadow-light);
 }
 
 input[type="text"]:focus,
@@ -643,3 +661,187 @@ textarea {
 .export-watermark { margin-top: 150px; color: white; text-align: center; }
 .export-watermark h2 { font-size: 2.5rem; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 .export-watermark h3 { font-size: 2rem; opacity: 0.9; }
+
+/* -----------------------------
+   Dark Mode Overrides & Shadow Tweaks
+   ----------------------------- */
+.container {
+  box-shadow: 20px 20px 60px var(--shadow-dark), -20px -20px 60px var(--shadow-light), inset 2px 2px 10px rgba(255,255,255,0.1), inset -4px -4px 15px rgba(0,0,0,0.05);
+}
+.btn-secondary {
+  box-shadow: 0px 8px 0px var(--shadow-dark), 0px 15px 20px rgba(0,0,0,0.1), inset 0px 4px 10px rgba(255, 255, 255, 0.1);
+}
+.btn-secondary:active {
+  box-shadow: 0px 0px 0px var(--shadow-dark), 0px 2px 5px rgba(0,0,0,0.1), inset 0px 2px 5px rgba(255, 255, 255, 0.1);
+}
+.link-display, .qr-container, .settings-section, .navbar-menu a, .topic-badge {
+  box-shadow: inset 4px 4px 8px var(--input-shadow), inset -4px -4px 8px var(--shadow-light);
+  background: var(--bg-color);
+}
+.message-card, .navbar, .topic-card {
+  box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light), inset 2px 2px 5px rgba(255,255,255,0.05);
+}
+.topic-card:hover {
+  box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+}
+.mood-btn, .dice-btn {
+  box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+}
+.modal-content {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* -----------------------------
+   Animations (Full Animasi)
+   ----------------------------- */
+.animate-slide-up {
+  animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+
+@keyframes slideUpFade {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  from { box-shadow: 0 0 10px var(--primary-light); }
+  to { box-shadow: 0 0 25px var(--primary); transform: scale(1.02); }
+}
+
+/* -----------------------------
+   Theme Selector & Premium UI
+   ----------------------------- */
+.theme-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+.theme-btn {
+  background: var(--card-bg);
+  color: var(--text-main);
+  border: 2px solid transparent;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+  transition: all 0.2s;
+}
+.theme-btn:hover {
+  transform: translateY(-2px);
+}
+.theme-btn.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+[data-theme="dark"] .theme-btn.active {
+  background: var(--primary-dark);
+  color: #fff;
+}
+
+.premium-card {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--primary);
+  background: linear-gradient(135deg, var(--card-bg), var(--bg-color));
+}
+.premium-card::before {
+  content: "Akan Datang";
+  position: absolute;
+  top: 15px;
+  right: -30px;
+  background: var(--primary);
+  color: #fff;
+  padding: 5px 30px;
+  transform: rotate(45deg);
+  font-size: 0.75rem;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.premium-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 10px var(--primary));
+}
+
+.package-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+  text-align: left;
+}
+.package-item {
+  background: var(--bg-color);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--input-shadow);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 2px 2px 5px var(--input-shadow), inset -2px -2px 5px var(--shadow-light);
+}
+.package-item.locked::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: grayscale(1) blur(1px);
+  z-index: 1;
+}
+[data-theme="dark"] .package-item.locked::after {
+  background: rgba(15, 23, 42, 0.6);
+}
+.package-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px dashed var(--text-muted);
+  padding-bottom: 10px;
+}
+.package-header h4 {
+  color: var(--primary-dark);
+  margin: 0;
+  font-size: 1.1rem;
+}
+.package-header .price {
+  font-weight: 800;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+.package-header .price small {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+.package-features {
+  list-style: none;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+.package-features li {
+  margin-bottom: 8px;
+}
+.btn-locked {
+  background: var(--text-muted);
+  box-shadow: none !important;
+  cursor: not-allowed;
+  opacity: 0.8;
+  padding: 10px;
+  font-size: 0.9rem;
+}
+.btn-locked:hover {
+  filter: none;
+  transform: none;
+}

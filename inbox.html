@@ -10,9 +10,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-    <a href="index.html" class="back-link">← Back to Link</a>
+    <a href="index.html" class="back-link" data-i18n="nav.back">← Back</a>
     <div class="container" style="max-width: 500px;">
-        <h2>Your Inbox</h2>
+        <h2 data-i18n="inbox.title">Your Inbox</h2>
         <h3 id="inbox-username" style="color: var(--text-muted); font-size: 1rem; margin-top: -10px; margin-bottom: 30px;">...</h3>
         
         <div id="message-list" class="message-list">
@@ -24,10 +24,10 @@
     <div id="share-modal" class="modal hide">
         <div class="modal-content">
             <span class="close-modal" id="close-modal">&times;</span>
-            <h3>Bagikan ke Story 📸</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Tahan gambar untuk menyimpan, atau klik Download.</p>
+            <h3 data-i18n="inbox.modal_title">Share to Story 📸</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;" data-i18n="inbox.modal_desc">Tap and hold the image to save, or click Download.</p>
             <div id="canvas-preview-container"></div>
-            <button id="download-img-btn" class="btn" style="margin-top: 15px;">Download Gambar</button>
+            <button id="download-img-btn" class="btn" style="margin-top: 15px;" data-i18n="inbox.modal_btn">Download Image</button>
         </div>
     </div>
 
@@ -41,7 +41,7 @@
             </div>
             <div class="export-watermark">
                 <img src="logo.png" style="width: 60px; height: 60px; border-radius: 15px; margin-bottom:10px;">
-                <h2>Kirim pesan anonim ke saya di Whispr!</h2>
+                <h2 data-i18n="inbox.watermark">Send me anonymous messages on Whispr!</h2>
                 <h3 id="export-username"></h3>
             </div>
         </div>
@@ -49,9 +49,9 @@
 
     <!-- Footer -->
     <div class="footer">
-        &copy; 2026 Whispr - All right reserved. <br>
-        Developed by <a href="https://sukacoding.com" target="_blank">SukaCoding</a><br><br>
-        <a href="settings.html">Pengaturan & Kebijakan</a>
+        <span data-i18n="footer.rights">&copy; 2026 Whispr - All rights reserved.</span> <br>
+        <span data-i18n="footer.dev">Developed by SukaCoding</span><br><br>
+        <a href="settings.html" data-i18n="nav.settings">⚙️ Settings</a>
     </div>
 
     <!-- Load App Logic as Module -->
