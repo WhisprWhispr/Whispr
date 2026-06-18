@@ -196,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetUser = urlParams.get('u');
     const topicParam = urlParams.get('t');
     const topicBadgeWrap = document.getElementById('topic-badge-wrap');
+    const ownerInboxBtnWrap = document.getElementById('owner-inbox-btn-wrap');
 
     if (!targetUser) {
       targetUsernameDisplay.textContent = 'Unknown User';
@@ -204,6 +205,12 @@ document.addEventListener('DOMContentLoaded', () => {
       messageInput.placeholder = 'Invalid link.';
     } else {
       targetUsernameDisplay.textContent = targetUser;
+      
+      // If the viewer is the owner of the link, show the "Lihat Inbox Saya" button
+      const viewerUser = localStorage.getItem('ngl_username');
+      if (viewerUser && viewerUser === targetUser && ownerInboxBtnWrap) {
+        ownerInboxBtnWrap.classList.remove('hide');
+      }
       
       // Async validation of topic
       validateTopic(targetUser, topicParam);
