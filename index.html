@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whispr - Anonymous Messages</title>
+    <meta name="description" content="Get anonymous messages from your friends! Create your unique link now.">
+    <!-- Open Graph for WhatsApp/Social Media Previews -->
+    <meta property="og:title" content="Whispr - Pesan Rahasia Anonim">
+    <meta property="og:description" content="Kirimkan saya pesan secara anonim. Saya tidak akan tahu siapa yang mengirim!">
+    <meta property="og:image" content="https://YOUR_DOMAIN.com/img/logo.png">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar Menu -->
+    <div class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <img src="img/logo.png" alt="Whispr Logo">
+            Whispr
+        </a>
+        <div class="navbar-menu">
+            <a href="settings.html">⚙️ Pengaturan</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>✨ Whispr</h1>
+        
+        <!-- Login / Username Form -->
+        <form id="login-form">
+            <p>Get professional, anonymous feedback & messages from your network.</p>
+            <div class="input-group">
+                <input type="text" id="username-input" placeholder="Pick a username" required autocomplete="off">
+            </div>
+            <button type="submit" class="btn">
+                <span>Generate My Link</span>
+            </button>
+        </form>
+
+        <!-- Topic Selection Step -->
+        <div id="topic-section" class="hide">
+            <h2>Pilih Topik 🎯</h2>
+            <p>Pilih topik yang ingin ditanyakan orang kepadamu. Ini akan ditampilkan di halamanmu.</p>
+            <div class="topic-grid">
+                <button class="topic-card" data-topic="Tanya Apa Saja 💬">
+                    <div class="topic-icon">💬</div>
+                    <div class="topic-label">Tanya Apa Saja</div>
+                </button>
+                <button class="topic-card" data-topic="Roast Aku 🔥">
+                    <div class="topic-icon">🔥</div>
+                    <div class="topic-label">Roast Aku</div>
+                </button>
+                <button class="topic-card" data-topic="Kasih Feedback 📝">
+                    <div class="topic-icon">📝</div>
+                    <div class="topic-label">Kasih Feedback</div>
+                </button>
+                <button class="topic-card" data-topic="Ungkapkan Perasaan 💌">
+                    <div class="topic-icon">💌</div>
+                    <div class="topic-label">Ungkapkan Perasaan</div>
+                </button>
+                <button class="topic-card" data-topic="Kritik & Saran 🎯">
+                    <div class="topic-icon">🎯</div>
+                    <div class="topic-label">Kritik & Saran</div>
+                </button>
+                <button class="topic-card" data-topic="Cerita Dong 👂">
+                    <div class="topic-icon">👂</div>
+                    <div class="topic-label">Cerita Dong</div>
+                </button>
+                <button class="topic-card" data-topic="Random 🎲">
+                    <div class="topic-icon">🎲</div>
+                    <div class="topic-label">Random</div>
+                </button>
+            </div>
+            <button id="skip-topic-btn" class="btn btn-secondary" style="margin-top: 5px;">Lewati →</button>
+        </div>
+
+        <!-- Link Display Section -->
+        <div id="link-section" class="hide">
+            <h2>Your Link is Ready!</h2>
+            <p>Copy this link and put it in your bio or share it privately.</p>
+            
+            <div class="link-display" id="generated-link">...</div>
+            
+            <div class="qr-container">
+                <img id="qr-code-img" src="" alt="QR Code" width="150" height="150">
+            </div>
+
+            <div class="share-buttons">
+                <button id="copy-btn" class="btn copy-btn">Copy Link</button>
+                <a href="#" id="wa-share-btn" class="btn wa-btn" target="_blank">Share ke WhatsApp</a>
+            </div>
+
+            <a href="inbox.html" id="view-inbox-btn" class="btn btn-secondary">View Inbox</a>
+            <button id="change-topic-btn" class="btn btn-secondary" style="margin-top: 10px; opacity: 0.8; font-size: 0.9rem;">Ganti Topik 🔄</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2026 Whispr - All right reserved. <br>
+        Developed by <a href="https://sukacoding.com" target="_blank">SukaCoding</a>.
+    </div>
+
+    <!-- Load App Logic as Module -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

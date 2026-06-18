@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send a Whispr</title>
+    <meta name="description" content="Send an anonymous message. They won't know it's you.">
+    <!-- Open Graph for WhatsApp/Social Media Previews -->
+    <meta property="og:title" content="Whispr - Kirim Pesan Anonim">
+    <meta property="og:description" content="Kirim pesan rahasia secara anonim melalui Whispr!">
+    <meta property="og:image" content="https://YOUR_DOMAIN.com/img/logo.png">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar Menu -->
+    <div class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <img src="img/logo.png" alt="Whispr Logo">
+            Whispr
+        </a>
+        <div class="navbar-menu">
+            <a href="index.html">Buat Link Anda</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Send Message Form -->
+        <form id="send-form">
+            <h2>Send a Whispr to</h2>
+            <h1 id="target-username" style="color: var(--primary);">...</h1>
+            <div id="topic-badge-wrap"></div>
+            
+            <p style="margin-top:20px; font-weight:bold; color:var(--text-muted); font-size:0.9rem;">Pilih Mood Vibe (Opsional)</p>
+            <div class="mood-selector" id="mood-selector">
+                <button type="button" class="mood-btn" data-mood="😎">😎</button>
+                <button type="button" class="mood-btn" data-mood="💔">💔</button>
+                <button type="button" class="mood-btn" data-mood="🤫">🤫</button>
+                <button type="button" class="mood-btn" data-mood="💖">💖</button>
+                <button type="button" class="mood-btn" data-mood="🔥">🔥</button>
+            </div>
+
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <textarea id="message-input" placeholder="Type your anonymous message here..." required></textarea>
+                    <button type="button" id="dice-btn" class="dice-btn" title="Bantu Aku Tanya">🎲</button>
+                </div>
+            </div>
+            <button type="submit" id="send-btn" class="btn">
+                <span id="send-btn-text">Send anonymously</span>
+                <div class="loader"></div>
+            </button>
+            <p style="margin-top: 20px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">100% encrypted & anonymous</p>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2026 Whispr - All right reserved.<br>
+        Developed by <a href="https://sukacoding.com" target="_blank">SukaCoding</a>
+    </div>
+
+    <!-- Load App Logic as Module -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
