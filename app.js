@@ -313,9 +313,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Success state
         sendForm.innerHTML = `
-          <h3>Sent! 🤫</h3>
-          <p>Your anonymous message has been sent to ${targetUser}.</p>
-          <a href="index.html?new=1" class="btn btn-secondary" style="margin-top: 20px;">Get your own link</a>
+          <h3>Terkirim! 🤫</h3>
+          <p>Pesan anonim Anda telah terkirim ke ${targetUser}.</p>
+          <a href="index.html?new=1" class="btn btn-secondary" style="margin-top: 20px;">Buat Link Anda</a>
         `;
       } catch (error) {
         console.error("Error sending message: ", error);
