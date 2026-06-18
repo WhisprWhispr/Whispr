@@ -28,6 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const changeTopicBtn = document.getElementById('change-topic-btn');
 
   if (loginForm) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('new') === '1') {
+      localStorage.removeItem('ngl_username');
+      localStorage.removeItem('ngl_topic');
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
     // Check if user is already logged in
     const savedUser = localStorage.getItem('ngl_username');
     if (savedUser) {
@@ -301,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sendForm.innerHTML = `
           <h3>Sent! 🤫</h3>
           <p>Your anonymous message has been sent to ${targetUser}.</p>
-          <a href="index.html" class="btn btn-secondary" style="margin-top: 20px;">Get your own link</a>
+          <a href="index.html?new=1" class="btn btn-secondary" style="margin-top: 20px;">Get your own link</a>
         `;
       } catch (error) {
         console.error("Error sending message: ", error);
