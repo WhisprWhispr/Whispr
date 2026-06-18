@@ -121,8 +121,20 @@ document.addEventListener('DOMContentLoaded', () => {
       // Create the link (using current origin), append topic if set
       const topic = localStorage.getItem('ngl_topic');
       const topicParam = (topic && topic !== 'none') ? `&t=${encodeURIComponent(topic)}` : '';
-      const link = `${window.location.origin}/send.html?u=${username}${topicParam}`;
-      generatedLink.textContent = link;
+      
+      // Deteksi otomatis folder aktif (untuk GitHub Pages / subfolder)
+      let currentPath = window.location.pathname;
+      if (currentPath.endsWith('.html')) {
+        currentPath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+      } else if (!currentPath.endsWith('/')) {
+        currentPath += '/';
+      }
+      
+      const link = `${window.location.origin}${currentPath}send.html?u=${username}${topicParam}`;
+      
+      const linkDisplay = document.getElementById('generated-link');
+      const qrCodeImg = document.getElementById('qr-code-img');
+      linkDisplay.textContent = link;
       viewInboxBtn.href = 'inbox.html';
 
       // Set QR Code
