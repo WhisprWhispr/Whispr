@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
 
   // --- I18N LOGIC ---
-  let currentLang = localStorage.getItem('ngl_lang') || 'en';
+  let currentLang = localStorage.getItem('ngl_lang') || 'id';
   const t = (key) => {
     return translations[currentLang]?.[key] || translations['en']?.[key] || key;
   };
