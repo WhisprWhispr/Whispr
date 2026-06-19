@@ -110,8 +110,8 @@ export const translations = {
     "nav.settings": "⚙️ Pengaturan",
     "nav.back": "← Kembali",
     "nav.create_link": "Buat Link Anda",
-    "footer.rights": "© 2026 Whispr - Hak cipta dilindungi.",
-    "footer.dev": "Dikembangkan oleh SukaCoding.",
+    "footer.rights": "© 2026 Whispr - All rights reserved.",
+    "footer.dev": "Developed by SukaCoding.",
     
     // Index Page
     "index.title": "✨ Whispr",
