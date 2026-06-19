@@ -396,6 +396,27 @@ textarea {
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin: 20px 0;
+  max-height: 350px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 16px;
+  box-shadow: inset 4px 4px 8px var(--input-shadow), inset -4px -4px 8px var(--shadow-light);
+}
+
+/* Custom Scrollbar for topic-grid */
+.topic-grid::-webkit-scrollbar {
+  width: 8px;
+}
+.topic-grid::-webkit-scrollbar-track {
+  background: var(--bg-color);
+  border-radius: 10px;
+}
+.topic-grid::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 10px;
+}
+.topic-grid::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
 }
 
 .topic-card {

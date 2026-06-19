@@ -43,36 +43,8 @@
         <div id="topic-section" class="hide">
             <h2 data-i18n="topic.title">Choose a Topic 🎯</h2>
             <p data-i18n="topic.desc">Pick a topic you want people to ask you about. This will be shown on your page.</p>
-            <div class="topic-grid">
-                <!-- Topics will be dynamically translated via JS, but we can set default English here -->
-                <button class="topic-card" data-topic="Tanya Apa Saja 💬">
-                    <div class="topic-icon">💬</div>
-                    <div class="topic-label">Tanya Apa Saja</div>
-                </button>
-                <button class="topic-card" data-topic="Roast Aku 🔥">
-                    <div class="topic-icon">🔥</div>
-                    <div class="topic-label">Roast Aku</div>
-                </button>
-                <button class="topic-card" data-topic="Kasih Feedback 📝">
-                    <div class="topic-icon">📝</div>
-                    <div class="topic-label">Kasih Feedback</div>
-                </button>
-                <button class="topic-card" data-topic="Ungkapkan Perasaan 💌">
-                    <div class="topic-icon">💌</div>
-                    <div class="topic-label">Ungkapkan Perasaan</div>
-                </button>
-                <button class="topic-card" data-topic="Kritik & Saran 🎯">
-                    <div class="topic-icon">🎯</div>
-                    <div class="topic-label">Kritik & Saran</div>
-                </button>
-                <button class="topic-card" data-topic="Cerita Dong 👂">
-                    <div class="topic-icon">👂</div>
-                    <div class="topic-label">Cerita Dong</div>
-                </button>
-                <button class="topic-card" data-topic="Random 🎲">
-                    <div class="topic-icon">🎲</div>
-                    <div class="topic-label">Random</div>
-                </button>
+            <div class="topic-grid" id="dynamic-topic-grid">
+                <!-- Topics will be dynamically populated by app.js -->
             </div>
             <button id="skip-topic-btn" class="btn btn-secondary" style="margin-top: 5px;" data-i18n="topic.skip">Skip →</button>
         </div>

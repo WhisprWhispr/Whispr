@@ -2,15 +2,124 @@ import { db } from './firebase-config.js';
 import { collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, doc, setDoc, getDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 import { translations } from './translations.js';
 
-const topicConfig = {
-  "Tanya Apa Saja 💬": { primary: "#3b82f6", dark: "#2563eb", bg: "#eff6ff", music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-  "Roast Aku 🔥": { primary: "#ef4444", dark: "#dc2626", bg: "#fef2f2", music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-  "Kasih Feedback 📝": { primary: "#10b981", dark: "#059669", bg: "#ecfdf5", music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-  "Ungkapkan Perasaan 💌": { primary: "#f43f5e", dark: "#e11d48", bg: "#fff1f2", music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-  "Kritik & Saran 🎯": { primary: "#8b5cf6", dark: "#7c3aed", bg: "#f5f3ff", music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-  "Cerita Dong 👂": { primary: "#f59e0b", dark: "#d97706", bg: "#fffbeb", music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-  "Random 🎲": { primary: "#14b8a6", dark: "#0d9488", bg: "#f0fdfa", music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" }
-};
+const topicList = [
+  // Original / Classic Topics (7)
+  "Tanya Apa Saja 💬", "Roast Aku 🔥", "Kasih Feedback 📝", 
+  "Ungkapkan Perasaan 💌", "Kritik & Saran 🎯", "Cerita Dong 👂", "Random 🎲",
+
+  // Deep Talk (20)
+  "Apa ketakutan terbesarmu? 👻", "Pernah merasa kesepian di keramaian? 🌌", "Apa arti sukses buatmu? 🚀",
+  "Pelajaran hidup paling berharga? 📚", "Kalau bisa ulang waktu, mau ke kapan? ⏳", "Apa yang bikin kamu overthinking? 🤯",
+  "Pernah dikhianati teman terdekat? 💔", "Hal yang paling disesali? 🥀", "Momen paling membahagiakan? ✨",
+  "Kapan terakhir kali kamu menangis? 😢", "Sifat buruk yang pengen diubah? 🔄", "Pernah merasa salah jurusan/karir? 🛤️",
+  "Apa mimpimu yang belum tercapai? 💭", "Satu rahasia yang gak ada yang tau? 🤫", "Lebih milih dicintai atau mencintai? ❤️",
+  "Definisi sahabat sejati menurutmu? 🤝", "Pernah di fase terendah dalam hidup? 📉", "Siapa orang paling berpengaruh buatmu? 👑",
+  "Hal yang paling kamu syukuri hari ini? 🙏", "Pernah merasa gak cukup baik? 🥀",
+
+  // Spicy / Roasts (20)
+  "Roast gaya pakaianku dong 🔥", "Apa first impression kalian tentang aku? 🫣", "Sifatku yang paling nyebelin? 🤬",
+  "Jujur, pernah sebal sama aku gak? 😤", "Kalau aku artis, cocoknya jadi apa? 🎬", "Menurutmu aku tipe yang kayak gimana? 🤔",
+  "Rating penampilanku dari 1-10? 💯", "Kalo aku karakter film, aku siapa? 🦸", "Kebiasaan anehku yang kamu tau? 👽",
+  "Apa hal paling cringy yang pernah aku lakuin? 😬", "Berani jujur tentang keburukanku? 😈", "Kapan aku kelihatan paling jelek? 🧟",
+  "Kalo kita berantem, siapa yang menang? 🥊", "Satu kata yang ngegambarin aku banget? 🗣️", "Hal paling sok tahu yang pernah aku bilang? 🤓",
+  "Pernah ngomongin aku di belakang? 👀", "Kalo aku hewan, aku hewan apa? 🐒", "Gaya bicaraku ngeselin gak sih? 🙊",
+  "Pernah ilfeel sama aku gara-gara apa? 🤢", "Apa yang bikin aku kelihatan culun? 🤓",
+
+  // Romance / Crush (20)
+  "Spill inisial crush kamu dong 💘", "Kapan terakhir kali jatuh cinta? 😍", "Tipe idaman kamu kayak gimana? ✨",
+  "Pernah suka sama pacar teman? 🫣", "Pilih LDR atau beda agama? 🛤️", "Satu hal yang bikin gampang baper? 🥰",
+  "Pernah digosting gak? 👻", "Cara move on paling ampuh menurutmu? 🏃", "Mantan terindah atau gebetan baru? 🌹",
+  "Red flag di pasangan yang gak bisa ditolerir? 🚩", "Green flag idaman kamu? 🍏", "Pernah selingkuh atau diselingkuhin? 💔",
+  "First date ideal kamu ke mana? 🎡", "Lebih suka di-chat duluan atau nge-chat duluan? 📱", "Kata-kata gombalan andalanmu? 😏",
+  "Pernah friendzone-in orang? 🙅‍♂️", "Terjebak friendzone itu rasanya gimana? 🌧️", "Kapan rencana mau nikah? 💍",
+  "Lebih pilih pasangan good looking atau good rekening? 💸", "Pendapatmu soal balikan sama mantan? 🔄",
+
+  // School / Work (20)
+  "Pelajaran/Mata kuliah paling dibenci? 📚", "Pernah ketahuan nyontek? 👀", "Guru/Dosen paling killer? 👨‍🏫",
+  "Momen paling memalukan di sekolah/kampus? 🫣", "Pilih IPK tinggi atau organisasi banyak? 🎓", "Pernah bolos sekolah/kerja? 🏃",
+  "Teman sebangku paling ngeselin? 😤", "Pernah naksir teman sekelas? 💘", "Gaji pertama buat beli apa? 💰",
+  "Rekan kerja paling toxic? 🐍", "Pernah dimarahin bos? 🤬", "Lebih suka WFH atau WFO? 🏠",
+  "Jurusan impian vs kenyataan? 📉", "Pernah tidur pas kelas/meeting? 😴", "Skripsi/Tugas akhir udah sampai mana? 📑",
+  "Tips bagi waktu belajar dan main? ⏳", "Pernah ngerasa salah pilih tempat kerja? 🏢", "Geng paling populer di sekolahmu dulu? 👑",
+  "Pernah jadi anak kesayangan guru? 🍎", "Mata pelajaran yang kamu paling jago? 🥇",
+
+  // Random / Fun (20)
+  "Kalau menang lotre 1 milyar buat apa? 💰", "Pilih bisa terbang atau baca pikiran? 🦸", "Kalo dunia kiamat besok, mau ngapain? 🌋",
+  "Teori konspirasi yang kamu percaya? 👽", "Makanan yang paling dibenci? 🥦", "Film/Series favorit sepanjang masa? 🎬",
+  "Lagu yang lagi sering di-repeat? 🎵", "Karakter anime favoritmu? 🌸", "Kalo terdampar di pulau terpencil, bawa apa 3 barang? 🏝️",
+  "Momen paling awkward hidupmu? 😬", "Phobia aneh yang kamu punya? 🕷️", "Tebak zodiakku apa? ⭐",
+  "Hal terbodoh yang pernah dibeli? 🛍️", "Kalau bisa jadi hewan sehari, mau jadi apa? 🐈", "Genre musik favoritmu? 🎸",
+  "Punya keahlian tersembunyi apa? 🤹", "Apa kebiasaan anehmu sebelum tidur? 🛌", "Lebih pilih mandi air dingin atau panas? 🚿",
+  "Tim bubur diaduk atau gak diaduk? 🥣", "Suka makan nanas di pizza gak? 🍕",
+
+  // Feedback / Advice (20)
+  "Minta saran lagu galau dong 🎧", "Rekomendasi tempat nongkrong asik? ☕", "Saran buat aku biar lebih produktif? 📈",
+  "Kritik pedas buat aku dong 🌶️", "Menurutmu aku kurang apa? 🤔", "Saran skincare buat kulit berjerawat? 🧴",
+  "Rekomendasi film Netflix yang seru? 🍿", "Kasih masukan buat gaya rambutku dong 💇", "Saran buku yang mengubah hidupmu? 📖",
+  "Minta wejangan hidup dong tetua 👴", "Rekomendasi game PC/HP yang seru? 🎮", "Saran buat aku yang lagi overthinking? 🧠",
+  "Menurutmu aku harus berubah jadi apa? 🦋", "Rekomendasi makanan enak di kotamu? 🍜", "Saran kado buat pacar? 🎁",
+  "Tips hemat uang anak kos? 💸", "Menurutmu aku cocoknya kerja apa? 💼", "Kasih masukan buat konten media sosialku? 📱",
+  "Tips biar pede ngomong di depan umum? 🎤", "Saran cara menghadapi orang toxic? 🛡️",
+
+  // Would You Rather (20)
+  "Pilih kaya tapi jelek atau miskin tapi cakep? 🎭", "Pilih hidup selamanya atau mati besok? 💀", "Pilih gak bisa internet 1 bulan atau gak mandi 1 bulan? 📵",
+  "Pilih tau kapan meninggal atau cara meninggal? ⏳", "Pilih teman sedikt tapi solid atau banyak tapi fake? 🤝", "Pilih jadi superhero atau supervillain? 🦸‍♂️",
+  "Pilih hilang ingatan atau gak bisa buat ingatan baru? 🧠", "Pilih makan enak tapi pedas gila atau hambar? 🌶️", "Pilih selalu telat 10 menit atau kepagian 20 menit? ⏰",
+  "Pilih baca pikiran orang atau bisa teleportasi? 🚪", "Pilih ketemu alien atau ketemu hantu? 👻", "Pilih kaya raya tapi kesepian atau pas-pasan tapi bahagia? 💰",
+  "Pilih terkenal tapi dibenci atau orang biasa tapi disayang? 🌟", "Pilih kembali ke masa lalu atau lihat masa depan? 🕰️", "Pilih buta warna atau kehilangan indra perasa? 👅",
+  "Pilih selalu kepanasan atau selalu kedinginan? ❄️", "Pilih bisa ngomong sama hewan atau ngomong semua bahasa manusia? 🐾", "Pilih jadi jenius tapi ansos atau bodoh tapi super populer? 🤓",
+  "Pilih kejebak di hutan atau di tengah laut? 🌊", "Pilih handphone selalu baterai 10% atau internet selalu lemot? 🐢",
+
+  // Confessions (20)
+  "Confess rahasia terbesar kamu di sini 🤫", "Pernah ngambil barang orang diem-diem? 🕵️", "Dosa terbesar yang pernah kamu lakuin? 😈",
+  "Pernah bohongin orang tua soal apa? 🤥", "Siapa orang yang diam-diam kamu benci? 😡", "Pernah nge-stalk mantan sampai akar? 🔍",
+  "Hal paling memalukan yang gak ada yang tau? 🫣", "Pernah nangis di kamar mandi gara-gara apa? 🚿", "Kebohongan terbesar yang pernah kamu bilang ke aku? 🤥",
+  "Pernah pura-pura sakit buat bolos? 🤒", "Hal paling berani yang pernah dilakuin? 🦁", "Pernah punya pikiran jahat ke orang lain? 🧠",
+  "Apa hal ilegal yang pernah kamu lakukan? 🚨", "Pernah selingkuh dari sahabat sendiri? 🎭", "Siapa cinta pertamamu? 💖",
+  "Pernah pakai akun fake buat hate comment? 👤", "Hal paling bodoh yang dilakuin demi cinta? 💘", "Pernah nyesel kenal sama seseorang? Siapa? 🥀",
+  "Apa kebohongan yang kamu tulis di CV? 📄", "Pernah naksir guru atau dosen? 👨‍🏫",
+
+  // Future / Dreams (20)
+  "Dimana kamu lihat dirimu 5 tahun lagi? 🔭", "Negara impian yang pengen dikunjungi? ✈️", "Pekerjaan impian dari kecil? 👩‍🚀",
+  "Apa goal terbesarmu tahun ini? 🎯", "Mau punya anak berapa nanti? 👶", "Rumah impian kamu kayak gimana? 🏡",
+  "Kalau udah kaya raya, mau ngapain? 💸", "Hal yang pengen dicapai sebelum umur 30? 🏆", "Mobil impianmu apa? 🏎️",
+  "Pernah mimpi pengen jadi artis? 🌟", "Cita-cita yang tertunda? ⏳", "Masa pensiun pengennya di mana? 🌴",
+  "Mau dikenang sebagai orang yang kayak gimana? 🗿", "Impian teraneh yang pernah kamu bayangin? 🦄", "Pernah bikin bucket list? Apa isinya? 📝",
+  "Kalo besok kiamat, apa impian yang belum kesampaian? ☄️", "Harapan terbesar buat dirimu sendiri? ✨", "Skill baru yang pengen banget dipelajari? 🎸",
+  "Pengen punya bisnis sendiri di bidang apa? 💼", "Kalau bisa mengubah dunia, apa yang diubah? 🌍",
+
+  // Nostalgia / Past (20)
+  "Kangen masa kecil bagian mananya? 🧸", "Mainan favorit pas masih kecil? 🚂", "Kartun minggu pagi favoritmu? 📺",
+  "Jajanan SD yang paling dikangenin? 🍡", "Pernah dimarahin ortu gara-gara apa pas kecil? 🤬", "Cinta monyet pas SD/SMP? 🐒",
+  "Kenangan paling indah di SMA? 🏫", "Tempat nongkrong favorit zaman dulu? 🏪", "Lagu kenangan zaman galau pertama kali? 🎧",
+  "Pernah nulis diary? Apa isinya? 📓", "Gaya rambut paling memalukan zaman alay? 💇‍♂️", "Sosmed pertama yang kamu mainin? 📱",
+  "Pernah ikut tren alay apa aja? ✌️", "Kenangan terindah sama mantan? 💔", "Teman masa kecil yang udah lost contact? 📞",
+  "Barang peninggalan mantan yang masih disimpan? 🎁", "Game warnet favorit zaman dulu? 🎮", "Pernah alay di Facebook/Twitter? 🐦",
+  "Kejadian paling lucu pas zaman sekolah? 😂", "Kangen kumpul sama siapa yang sekarang udah susah? 👥"
+];
+
+const palettes = [
+  { primary: "#3b82f6", dark: "#2563eb", bg: "#eff6ff" },
+  { primary: "#ef4444", dark: "#dc2626", bg: "#fef2f2" },
+  { primary: "#10b981", dark: "#059669", bg: "#ecfdf5" },
+  { primary: "#f43f5e", dark: "#e11d48", bg: "#fff1f2" },
+  { primary: "#8b5cf6", dark: "#7c3aed", bg: "#f5f3ff" },
+  { primary: "#f59e0b", dark: "#d97706", bg: "#fffbeb" },
+  { primary: "#14b8a6", dark: "#0d9488", bg: "#f0fdfa" },
+  { primary: "#ec4899", dark: "#db2777", bg: "#fdf2f8" },
+  { primary: "#6366f1", dark: "#4f46e5", bg: "#eef2ff" },
+  { primary: "#eab308", dark: "#ca8a04", bg: "#fefce8" }
+];
+
+const topicConfig = {};
+
+topicList.forEach((topic, index) => {
+  const palette = palettes[index % palettes.length];
+  topicConfig[topic] = {
+    ...palette,
+    music: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+  };
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   
@@ -160,34 +269,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showTopicSection() {
       loginForm.classList.add('hide');
-      if (topicSection) topicSection.classList.remove('hide');
+      if (topicSection) {
+        topicSection.classList.remove('hide');
+        renderTopics();
+      }
     }
 
-    // Topic card click
-    topicCards.forEach(card => {
-      card.addEventListener('click', async () => {
-        // Highlight selected
-        topicCards.forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-
-        // Save topic & proceed after a brief delay
-        const topic = card.dataset.topic;
-        localStorage.setItem('ngl_topic', topic);
-        const username = localStorage.getItem('ngl_username');
+    function renderTopics() {
+      const grid = document.getElementById('dynamic-topic-grid');
+      if (!grid) return;
+      if (grid.children.length > 0) return; // Already rendered
+      
+      Object.keys(topicConfig).forEach(topic => {
+        const btn = document.createElement('button');
+        btn.className = 'topic-card';
+        btn.dataset.topic = topic;
         
-        // Fire and forget to avoid hanging if Firebase config is invalid
-        setDoc(doc(db, "users", username), { activeTopic: topic }, { merge: true }).catch(e => {
-          console.error("Error saving topic to DB", e);
+        const iconDiv = document.createElement('div');
+        iconDiv.className = 'topic-icon';
+        const emojiMatch = topic.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]/);
+        iconDiv.textContent = emojiMatch ? emojiMatch[0] : '💬';
+        
+        const labelDiv = document.createElement('div');
+        labelDiv.className = 'topic-label';
+        labelDiv.textContent = topic.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF]/g, '').trim();
+        
+        btn.appendChild(iconDiv);
+        btn.appendChild(labelDiv);
+        
+        btn.addEventListener('click', async () => {
+          document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('selected'));
+          btn.classList.add('selected');
+
+          localStorage.setItem('ngl_topic', topic);
+          const username = localStorage.getItem('ngl_username');
+          
+          setDoc(doc(db, "users", username), { activeTopic: topic }, { merge: true }).catch(e => {
+            console.error("Error saving topic to DB", e);
+          });
+
+          clearUserInbox(username);
+
+          setTimeout(() => {
+            showLinkSection(username);
+          }, 400);
         });
-
-        // Clear inbox when topic changes
-        clearUserInbox(username);
-
-        setTimeout(() => {
-          showLinkSection(username);
-        }, 400);
+        
+        grid.appendChild(btn);
       });
-    });
+    }
 
     // Skip topic
     if (skipTopicBtn) {
