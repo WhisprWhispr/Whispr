@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Whispr</title>
+    <link rel="stylesheet" href="style.css">
+  <script src="anti-copy.js"></script>
+</head>
+<body>
+    <!-- Navbar Menu -->
+    <div class="navbar">
+        <div class="navbar-brand">
+            <img src="logo.png" alt="Whispr Logo">
+            Whispr
+        </div>
+        <div class="navbar-menu">
+            <a href="index.html" data-i18n="nav.back">← Back</a>
+        </div>
+    </div>
+
+    <div class="container settings-container" style="max-width: 900px; text-align: left;">
+        <div class="settings-grid">
+            <div class="settings-section animate-slide-up animate-delay-1">
+                <h3 data-i18n="settings.lang_title">Language</h3>
+                <p class="small-text" data-i18n="settings.lang_desc">Choose your preferred language:</p>
+                <div class="theme-selector" id="lang-selector">
+                    <button class="lang-btn active" data-lang-val="en">English</button>
+                    <button class="lang-btn" data-lang-val="id">Indonesia</button>
+                    <button class="lang-btn" data-lang-val="es" style="grid-column: span 2;">Español</button>
+                </div>
+            </div>
+            
+            <div class="settings-section animate-slide-up animate-delay-1">
+                <h3 data-i18n="settings.title">Appearance</h3>
+                <p class="small-text" data-i18n="settings.desc">Choose your favorite theme:</p>
+                <div class="theme-selector" id="theme-selector">
+                    <button class="theme-btn active" data-theme-val="system" data-i18n="settings.theme_system">System</button>
+                    <button class="theme-btn" data-theme-val="light" data-i18n="settings.theme_light">Light</button>
+                    <button class="theme-btn" data-theme-val="auto" data-i18n="settings.theme_auto">Auto</button>
+                    <button class="theme-btn" data-theme-val="dark" data-i18n="settings.theme_dark">Dark</button>
+                </div>
+            </div>
+
+            <div class="settings-section settings-full-width animate-slide-up animate-delay-2" style="border-left: 4px solid var(--primary);">
+                <h3 data-i18n="settings.maint_title">Maintenance Info 🛠️</h3>
+                <p class="small-text" style="color: var(--text-main) !important; font-weight: 600;" data-i18n="settings.maint_time">
+                    Every Saturday, 12:00 - 23:00 WIB
+                </p>
+                <p class="small-text" data-i18n="settings.maint_desc">
+                    During this period, we perform routine server maintenance to keep the app stable and secure. Service may be temporarily disrupted.
+                </p>
+            </div>
+
+            <div class="settings-section settings-full-width premium-card animate-slide-up animate-delay-3" style="text-align: center; padding: 30px 20px;">
+                <div class="premium-icon">✨</div>
+                <h3 style="color: var(--primary);" data-i18n="settings.prem_title">Super Advanced Premium Features</h3>
+                <p class="small-text" style="margin-bottom: 20px;" data-i18n="settings.prem_desc">Get ready for a Whispr experience like never before. Super secrets that will change how you communicate!</p>
+
+                <div class="package-list">
+                    <!-- Package 1 -->
+                    <div class="package-item locked">
+                        <div class="package-header">
+                            <h4 data-i18n="settings.prem_basic">Basic Premium 🔒</h4>
+                            <span class="price">Rp 15.000<small>/bln</small></span>
+                        </div>
+                        <ul class="package-features">
+                            <li data-i18n="settings.f1_1">✅ Custom Profile URL</li>
+                            <li data-i18n="settings.f1_2">✅ Ad-Free Experience</li>
+                            <li data-i18n="settings.f1_3">✅ Custom Background & Color</li>
+                            <li data-i18n="settings.f1_4">✅ 5 Exclusive Fonts</li>
+                            <li data-i18n="settings.f1_5">✅ Save Favorite Messages</li>
+                        </ul>
+                        <button class="btn btn-locked" disabled data-i18n="settings.prem_btn">Coming Soon</button>
+                    </div>
+
+                    <!-- Package 2 -->
+                    <div class="package-item locked">
+                        <div class="package-header">
+                            <h4 data-i18n="settings.prem_pro">Pro VIP 🔒</h4>
+                            <span class="price">Rp 35.000<small>/bln</small></span>
+                        </div>
+                        <ul class="package-features">
+                            <li data-i18n="settings.f2_1">🔥 All Basic Features</li>
+                            <li data-i18n="settings.f2_2">🔥 Sender Hints (Location & Device)</li>
+                            <li data-i18n="settings.f2_3">🔥 Priority 24/7 Support</li>
+                            <li data-i18n="settings.f2_4">🔥 Instant WhatsApp Notifications</li>
+                            <li data-i18n="settings.f2_5">🔥 Profile Visitor Analytics</li>
+                        </ul>
+                        <button class="btn btn-locked" disabled data-i18n="settings.prem_btn">Coming Soon</button>
+                    </div>
+
+                    <!-- Package 3 -->
+                    <div class="package-item locked">
+                        <div class="package-header">
+                            <h4 data-i18n="settings.prem_ult">Ultimate Sultan 🔒</h4>
+                            <span class="price">Rp 75.000<small>/bln</small></span>
+                        </div>
+                        <ul class="package-features">
+                            <li data-i18n="settings.f3_1">👑 All Pro VIP Features</li>
+                            <li data-i18n="settings.f3_2">👑 Video & Audio Replies</li>
+                            <li data-i18n="settings.f3_3">👑 Smart AI Auto-Reply Bot</li>
+                            <li data-i18n="settings.f3_4">👑 Verified 'Sultan' Badge</li>
+                            <li data-i18n="settings.f3_5">👑 Custom 3D Profile Effects</li>
+                        </ul>
+                        <button class="btn btn-locked" disabled data-i18n="settings.prem_btn">Coming Soon</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section settings-full-width animate-slide-up animate-delay-4" style="text-align: center; background: linear-gradient(135deg, #1e293b, #0f172a); color: white;">
+                <h3 style="color: white; margin-bottom: 5px;" data-i18n="playstore.title">Coming Soon to Play Store!</h3>
+                <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 15px;" data-i18n="playstore.desc">Get a faster and more convenient Whispr experience right from your phone.</p>
+                <button class="btn" style="background: #ffffff; color: #1e293b; display: inline-flex; align-items: center; justify-content: center; gap: 10px; cursor: not-allowed; opacity: 0.8; font-size: 0.95rem; padding: 12px;" disabled data-i18n="playstore.btn">
+                    ▶️ Download (Coming Soon)
+                </button>
+            </div>
+
+            <div class="settings-section animate-slide-up animate-delay-4">
+                <h3 data-i18n="settings.app_title">App Details</h3>
+                <p><strong data-i18n="settings.app_name">Name:</strong> Whispr - Anonymous Messages</p>
+                <p><strong data-i18n="settings.app_ver">Version:</strong> 1.0.0</p>
+                <p><strong data-i18n="settings.app_dev">Developer:</strong> Developed by <a href="https://sukacoding.com" target="_blank" class="text-link">SukaCoding</a></p>
+            </div>
+
+            <div class="settings-section animate-slide-up animate-delay-4">
+                <h3 data-i18n="settings.privacy_title">Privacy Policy</h3>
+                <p class="small-text" data-i18n="settings.privacy_desc">
+                    We highly respect your privacy. All messages sent via Whispr are 100% anonymous. We do not store sender IP addresses or other identifying information. Message data is safely stored and only accessible by the recipient.
+                </p>
+            </div>
+
+            <div class="settings-section settings-full-width animate-slide-up animate-delay-4">
+                <h3 data-i18n="settings.terms_title">Terms & Conditions</h3>
+                <p class="small-text" data-i18n="settings.terms_desc">
+                    By using Whispr, you agree not to send messages containing threats, harassment, or illegal content. We reserve the right to remove messages or block access for violations. Use this app wisely and spread positivity!
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <span data-i18n="footer.rights">&copy; 2026 Whispr - All rights reserved.</span> <br>
+        <span data-i18n="footer.dev">Developed by SukaCoding.</span>
+    </div>
+
+    <!-- Load App Logic as Module -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>

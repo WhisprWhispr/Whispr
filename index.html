@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whispr - Anonymous Messages</title>
+    <meta name="description" content="Get anonymous messages from your friends! Create your unique link now.">
+    <!-- Open Graph for WhatsApp/Social Media Previews -->
+    <meta property="og:title" content="Whispr - Anonymous Messages">
+    <meta property="og:description" content="Send me an anonymous message. I won't know who sent it!">
+    <meta property="og:image" content="https://YOUR_DOMAIN.com/img/logo.png">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="style.css">
+  <script src="anti-copy.js"></script>
+</head>
+<body>
+    <!-- Navbar Menu -->
+    <div class="navbar">
+        <div class="navbar-brand">
+            <img src="logo.png" alt="Whispr Logo">
+            Whispr
+        </div>
+        <div class="navbar-menu">
+            <a href="settings.html" data-i18n="nav.settings">⚙️ Settings</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 data-i18n="index.title">✨ Whispr</h1>
+        
+        <!-- Login / Username Form -->
+        <form id="login-form">
+            <p data-i18n="index.desc">Get professional, anonymous feedback & messages from your network.</p>
+            <div class="input-group">
+                <input type="text" id="username-input" placeholder="Pick a username" required autocomplete="off" data-i18n-placeholder="index.placeholder">
+            </div>
+            <button type="submit" class="btn">
+                <span data-i18n="index.btn_generate">Generate My Link</span>
+            </button>
+        </form>
+
+        <!-- Topic Selection Step -->
+        <div id="topic-section" class="hide">
+            <h2 data-i18n="topic.title">Choose a Topic 🎯</h2>
+            <p data-i18n="topic.desc">Pick a topic you want people to ask you about. This will be shown on your page.</p>
+            <div class="topic-grid">
+                <!-- Topics will be dynamically translated via JS, but we can set default English here -->
+                <button class="topic-card" data-topic="Ask Me Anything 💬">
+                    <div class="topic-icon">💬</div>
+                    <div class="topic-label">Ask Me Anything</div>
+                </button>
+                <button class="topic-card" data-topic="Roast Me 🔥">
+                    <div class="topic-icon">🔥</div>
+                    <div class="topic-label">Roast Me</div>
+                </button>
+                <button class="topic-card" data-topic="Give Feedback 📝">
+                    <div class="topic-icon">📝</div>
+                    <div class="topic-label">Give Feedback</div>
+                </button>
+                <button class="topic-card" data-topic="Confess Feelings 💌">
+                    <div class="topic-icon">💌</div>
+                    <div class="topic-label">Confess Feelings</div>
+                </button>
+                <button class="topic-card" data-topic="Constructive Crit 🎯">
+                    <div class="topic-icon">🎯</div>
+                    <div class="topic-label">Constructive Crit</div>
+                </button>
+                <button class="topic-card" data-topic="Tell a Story 👂">
+                    <div class="topic-icon">👂</div>
+                    <div class="topic-label">Tell a Story</div>
+                </button>
+                <button class="topic-card" data-topic="Random 🎲">
+                    <div class="topic-icon">🎲</div>
+                    <div class="topic-label">Random</div>
+                </button>
+            </div>
+            <button id="skip-topic-btn" class="btn btn-secondary" style="margin-top: 5px;" data-i18n="topic.skip">Skip →</button>
+        </div>
+
+        <!-- Link Display Section -->
+        <div id="link-section" class="hide">
+            <h2 data-i18n="link.title">Your Link is Ready!</h2>
+            <p data-i18n="link.desc">Copy this link and put it in your bio or share it privately.</p>
+            
+            <div class="link-display" id="generated-link">...</div>
+            
+            <div class="qr-container">
+                <img id="qr-code-img" src="" alt="QR Code" width="150" height="150">
+            </div>
+
+            <div class="share-buttons">
+                <button id="copy-btn" class="btn copy-btn" data-i18n="link.copy">Copy Link</button>
+                <a href="#" id="wa-share-btn" class="btn wa-btn" target="_blank" data-i18n="link.wa_share">Share to WhatsApp</a>
+            </div>
+
+            <a href="inbox.html" id="view-inbox-btn" class="btn btn-secondary" data-i18n="link.view_inbox">View Inbox</a>
+            <button id="change-topic-btn" class="btn btn-secondary" style="margin-top: 10px; opacity: 0.8; font-size: 0.9rem;" data-i18n="link.change_topic">Change Topic 🔄</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <span data-i18n="footer.rights">&copy; 2026 Whispr - All rights reserved.</span> <br>
+        <span data-i18n="footer.dev">Developed by SukaCoding.</span>
+    </div>
+
+    <!-- Load App Logic as Module -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
